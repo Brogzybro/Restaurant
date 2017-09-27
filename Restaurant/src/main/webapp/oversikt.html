@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="web-res/jquery-3.2.1.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <title>Oversikt</title>
+    <script>
+        $(document).ready(function () {
+
+            function update () {
+                $.ajax({
+                    url:"rest/resBord/resPls",
+                    type: 'GET',
+                    contentType:'application/json; charset=utf-8',
+                    success: function(result){
+                        console.log(result);
+                        $("#output").html(result);
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });/*
+                $.get("rest/resPls", function (data) {
+                    $("#toString").html(data);
+                });*/
+            }
+            window.setInterval(update, 1000);
+        });
+    </script>
+
+</head>
+<body>
+    <div id="output" class="container">
+        <p></p>
+    </div>
+
+
+</body>
+</html>

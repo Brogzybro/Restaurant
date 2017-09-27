@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reservasjon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Restaurant</a> &gt; <a href="index.source.html" class="el_package">pakke</a> &gt; <span class="el_source">Reservasjon.java</span></div><h1>Reservasjon.java</h1><pre class="source lang-java linenums">package pakke;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+/**
+ * Created by BrageHalse on 21.09.2017.
+ */
+public class Reservasjon {
+    private String navn;
+    private String startS; //dd MMM yyyy HH:mm -- 04 Jul 2001 12:08
+    private String slutt; //dd MMM yyyy HH:mm -- 04 Jul 2001 12:08
+    private int maxRettar;
+    private int antPers;
+    private int bordnr;
+    private int resId;
+<span class="nc" id="L20">    ArrayList&lt;Bestilling&gt; bestillinger = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L21">    private int teller = 0;</span>
+
+<span class="nc" id="L23">    public Reservasjon(String navn, String startS, String slutt, int antPers, int resId){</span>
+<span class="nc" id="L24">        this.navn=navn;</span>
+<span class="nc" id="L25">        this.startS = startS;</span>
+<span class="nc" id="L26">        this.slutt = slutt;</span>
+<span class="nc" id="L27">        this.antPers = antPers;</span>
+<span class="nc" id="L28">        this.bordnr = bordnr;</span>
+<span class="nc" id="L29">        this.resId = resId;</span>
+<span class="nc" id="L30">    }</span>
+
+    public int getResId(){
+<span class="nc" id="L33">        return resId;</span>
+    }
+    public void setResId(int i){
+<span class="nc" id="L36">        resId = i;</span>
+<span class="nc" id="L37">    }</span>
+    public int getAntPers(){
+<span class="nc" id="L39">        return antPers;</span>
+    }
+
+    public Bestilling nyBestilling(){
+<span class="nc" id="L43">        Bestilling best = new Bestilling(teller);</span>
+<span class="nc" id="L44">        bestillinger.add(best);</span>
+<span class="nc" id="L45">        teller++;</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (int i = 0; i &lt;bestillinger.size() ; i++) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (best.antRettar&gt;maxRettar){</span>
+<span class="nc" id="L48">                maxRettar = best.antRettar;</span>
+            }
+        }
+<span class="nc" id="L51">        return best;</span>
+        /*
+        DateFormat f = new SimpleDateFormat(&quot;dd MMM YYYY HH:mm&quot;);
+        Date st = null;
+        try{
+            st = f.parse(startS);
+        }catch (ParseException e){
+            System.out.println(&quot;parse exeption&quot;);
+        }
+        long oneMin = 60000;
+        long star = st.getTime();
+
+        slutt = new Date(star + (maxRettar * oneMin));*/
+    }
+
+    public Bestilling getBestilling(int nr){
+<span class="nc" id="L67">        Bestilling bes = null;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (int i = 0; i &lt; bestillinger.size(); i++) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (bestillinger.get(i).getNr()==nr){</span>
+<span class="nc" id="L70">                bes = bestillinger.get(i);</span>
+<span class="nc" id="L71">                return bes;</span>
+            }
+        }
+<span class="nc" id="L74">        return bes;</span>
+    }
+
+    public String getStart() {
+<span class="nc" id="L78">        return startS;</span>
+    }
+
+    public String getSlutt() {
+<span class="nc" id="L82">        return slutt;</span>
+    }
+
+    public int getBordnr() {
+<span class="nc" id="L86">        return bordnr;</span>
+    }
+
+    public boolean ledig(String start2, String slutt2) {
+<span class="nc" id="L90">        DateFormat f = new SimpleDateFormat(&quot;dd MMM YYYY HH:mm&quot;);</span>
+<span class="nc" id="L91">        Date st = null;</span>
+<span class="nc" id="L92">        Date sl = null;</span>
+<span class="nc" id="L93">        Date st2 = null;</span>
+<span class="nc" id="L94">        Date sl2 = null;</span>
+        try {
+<span class="nc" id="L96">            st = f.parse(startS);</span>
+<span class="nc" id="L97">            sl = f.parse(slutt);</span>
+<span class="nc" id="L98">            st2 = f.parse(start2);</span>
+<span class="nc" id="L99">            sl2 = f.parse(slutt2);</span>
+<span class="nc" id="L100">        } catch (ParseException e) {</span>
+<span class="nc" id="L101">            System.out.println(&quot;Error parse to date&quot;);</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc bnc" id="L103" title="All 12 branches missed.">        if ((st2.after(st)||st2.equals(st) &amp;&amp; st2.before(sl)) || (sl2.after(st)) &amp;&amp; sl2.before(sl) || sl2.equals(sl)) { //sjekker om tid2 everlapper reservasjonen</span>
+<span class="nc" id="L104">            return false;</span>
+        } else {
+<span class="nc" id="L106">            return true;</span>
+        }
+    }
+
+    public String toString(){
+<span class="nc" id="L111">        String ut = &quot;Reservasjon på: '&quot;+navn+&quot;' fra &quot; + startS + &quot; til &quot; + slutt +&quot;&lt;br&gt;\n&quot; ;</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (int i = 0; i &lt; bestillinger.size(); i++) {</span>
+<span class="nc" id="L113">            ut+= bestillinger.get(i).toString() + &quot;&lt;br&gt;\n&quot;;</span>
+        }
+<span class="nc" id="L115">        return ut;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="web-res/jquery-3.2.1.min.js"></script>
+    <title>ReserverBord</title>
+    <script>
+        var $navn = $('#navn').val();
+        var $start = $("#start").val();
+        var $slutt = $("#slutt").val();
+        var $ant = $("#ant").val();
+
+        //var $reserv = $('#reservasjon');
+
+        var reservasjon = $navn + "," + $start + "," + $slutt + "," + $ant;
+
+        $(document).ready(function() {
+            $("#reservasjon").click(function () {
+                alert($("#navn").val() + "," + $("#start").val() + "," + $("#slutt").val() + "," + $("#ant").val());
+                    $.ajax({
+                        type: 'POST',
+                        url: "rest/resBord/reserver",
+                        data: JSON.stringify($("#navn").val() + "," + $("#start").val() + "," + $("#slutt").val() + "," + $("#ant").val()+","),
+                        contentType: "text/plain",
+                        success: function () {
+                            console.log("OK!");
+                            window.location.href='bestilling.html';
+                        },
+                        error: function (result) {
+                            console.log(result);
+                            console.log("RIP");
+                        }
+                    });
+
+            });
+            function meny(){
+                $.ajax({
+                    url: "rest/resBord/meny",
+                    type: 'GET',
+                    contentType: 'text/plain',
+                    success: function (result) {
+                        console.log(result);
+                        $("#meny").html(result);
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    }
+                });
+            }
+            window.setInterval(meny,1000);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Reserver eit bord!</h1>
+        <div class="container">
+            <p1>pls skriv inn når du vil reservere eit bord på formatet "15 jan 2017 15:30"</p1>
+            <br>
+            navn <input id="navn" type="text" class="form-control" placeholder="navn">
+            start tidspunk <input id="start" type="text" class="form-control" placeholder="start dato på '15 jan 2017 15:30'">
+            slutt dato <input id="slutt" type="text" class="form-control" placeholder="slultt dato på '15 jan 2017 15:30'">
+            antall personer <input id="ant" type="number" class="form-control" placeholder="example: 2" >
+            <button id="reservasjon" class="btn btn-primary" type="submit">Reserver :)</button>
+        </div>
+        <br>
+        <br>
+        <div id="meny" class="container"></div>
+    </div>
+
+</body>
+</html>

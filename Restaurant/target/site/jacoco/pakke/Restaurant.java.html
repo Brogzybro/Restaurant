@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Restaurant.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Restaurant</a> &gt; <a href="index.source.html" class="el_package">pakke</a> &gt; <span class="el_source">Restaurant.java</span></div><h1>Restaurant.java</h1><pre class="source lang-java linenums">package pakke;
+
+import java.util.ArrayList;
+
+/**
+ * Created by BrageHalse on 21.09.2017.
+ */
+public class Restaurant {
+<span class="nc" id="L9">    ArrayList&lt;Bord&gt; alleBord = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L10">    public ArrayList&lt;Rett&gt; alleRettar = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L11">    public ArrayList&lt;Reservasjon&gt; reservasjoner = new ArrayList&lt;&gt;();</span>
+    private String resNavn;
+<span class="nc" id="L13">    public int reservasjonsTeller = 0;</span>
+
+<span class="nc" id="L15">    public Restaurant(String resNavn){</span>
+<span class="nc" id="L16">        this.resNavn = resNavn;</span>
+<span class="nc" id="L17">    }</span>
+
+    public String getResNavn(){
+<span class="nc" id="L20">        return resNavn;</span>
+    }
+
+    public ArrayList&lt;Rett&gt; getRettar(){
+<span class="nc" id="L24">        return alleRettar;</span>
+    }
+
+    public boolean regNyttBord(String nrBord){
+<span class="nc" id="L28">        String[] split = nrBord.split(&quot;,&quot;);</span>
+<span class="nc" id="L29">        int bordnr = Integer.parseInt(split[0].trim());</span>
+<span class="nc" id="L30">        int maxAntPers = Integer.parseInt(split[1].trim());</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        for (int i = 0; i &lt; alleBord.size(); i++) {</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            if (alleBord.get(i).getBordnr()==bordnr){</span>
+<span class="nc" id="L33">                return false;</span>
+            }
+        }
+<span class="nc" id="L36">        Bord b = new Bord(bordnr, maxAntPers);</span>
+<span class="nc" id="L37">        alleBord.add(b);</span>
+<span class="nc" id="L38">        return true;</span>
+    }
+
+    public Reservasjon getReservasjon(int resId){
+<span class="nc" id="L42">        return reservasjoner.get(resId);</span>
+    }
+
+    public Rett getRett(int rettId){
+<span class="nc" id="L46">        Rett r=null;</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (int i = 0; i &lt;alleRettar.size() ; i++) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (alleRettar.get(i).getId()==rettId){</span>
+<span class="nc" id="L49">                r=alleRettar.get(i);</span>
+<span class="nc" id="L50">                return r;</span>
+            }
+        }
+<span class="nc" id="L53">        return r;</span>
+    }
+
+    public boolean regNyRett(int rettId, String navn, String beskrivelse, double pris){
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int i = 0; i &lt; alleRettar.size(); i++) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            if (alleRettar.get(i).getId()==rettId){</span>
+<span class="nc" id="L59">                return false;</span>
+            }
+        }
+<span class="nc" id="L62">        Rett r = new Rett(rettId, navn, beskrivelse, pris);</span>
+<span class="nc" id="L63">        alleRettar.add(r);</span>
+<span class="nc" id="L64">        return true;</span>
+    }
+
+    public int reserverBord(Reservasjon res){ //dd MMM yyyy HH:mm -- 04 Jul 2001 12:08
+<span class="nc" id="L68">        int nr =0;</span>
+<span class="nc" id="L69">        res.setResId(reservasjonsTeller);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (int i = 0; i &lt; alleBord.size(); i++) {</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">            if ((alleBord.get(i).getMaxAntPers() &gt;= res.getAntPers()) &amp;&amp; alleBord.get(i).checkLedig(res)){</span>
+<span class="nc" id="L72">                alleBord.get(i).reserverBord(res);</span>
+<span class="nc" id="L73">                nr = alleBord.get(i).getBordnr();</span>
+<span class="nc" id="L74">                reservasjoner.add(alleBord.get(i).getReservasjon(reservasjonsTeller));</span>
+<span class="nc" id="L75">                reservasjonsTeller++;</span>
+<span class="nc" id="L76">                break;</span>
+            }
+        }
+<span class="nc" id="L79">        return nr;</span>
+    }
+
+
+
+    public String toString(){
+<span class="nc" id="L85">        String ut=&quot;Oversikt: &lt;br&gt;\n&quot;;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (int i = 0; i &lt;alleBord.size() ; i++) {</span>
+<span class="nc" id="L87">            ut+= alleBord.get(i).toString();</span>
+        }
+<span class="nc" id="L89">        return ut;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L93">        Restaurant res = new Restaurant(&quot;res2ran&quot;);</span>
+<span class="nc" id="L94">        res.regNyttBord(&quot;1,6&quot;);</span>
+<span class="nc" id="L95">        res.regNyttBord(&quot;2,5&quot;);</span>
+<span class="nc" id="L96">        res.regNyttBord(&quot;2,1&quot;);</span>
+<span class="nc" id="L97">        res.regNyttBord(&quot;3,10&quot;);</span>
+<span class="nc" id="L98">        res.regNyttBord(&quot;4,5&quot;);</span>
+<span class="nc" id="L99">        Reservasjon res1 = new Reservasjon(&quot;Brage&quot;, &quot;21 Sep 2017 15:30&quot;, &quot;21 Sep 2017 16:30&quot;, 4 ,0);</span>
+<span class="nc" id="L100">        Reservasjon res2 = new Reservasjon(&quot;Brage&quot;, &quot;21 Sep 2017 15:30&quot;, &quot;21 sep 2017 16:00&quot;, 8,0);</span>
+<span class="nc" id="L101">        Reservasjon res3 = new Reservasjon(&quot;Brage&quot;, &quot;21 Sep 2017 15:30&quot;, &quot;21 Sep 2017 16:30&quot;, 4, 0);</span>
+<span class="nc" id="L102">        res.reserverBord(res1);</span>
+<span class="nc" id="L103">        res.reserverBord(res2);</span>
+<span class="nc" id="L104">        res.reserverBord(res3);</span>
+<span class="nc" id="L105">        System.out.println(res.toString());/*</span>
+        res.regNyRett(1, &quot;Kjøttkaker&quot;, &quot;Kjøttkaker i brun saus.&quot;, 80);
+        res.regNyRett(2, &quot;Laks&quot;, &quot;laks med poteter.&quot;, 75);
+        res.regNyRett(-1, &quot;Cola&quot;, &quot;0,5L Cola.&quot;, 30);
+        System.out.println(res.getReservasjon(0).toString());
+        res.getReservasjon(0).nyBestilling();
+        res.getReservasjon(0).nyBestilling();
+        res.getReservasjon(0).getBestilling(0).leggTilRett(res.getRett(1));
+        res.getReservasjon(0).getBestilling(0).leggTilRett(res.getRett(-1));
+        res.getReservasjon(0).getBestilling(1).leggTilRett(res.getRett(2));
+
+        System.out.println(res.getReservasjon(0).getBestilling(0).toString());
+        System.out.println(res.getReservasjon(0).getBestilling(1).toString());
+        System.out.println(res.getReservasjon(0).toString());
+        System.out.println(res.toString());*/
+<span class="nc" id="L120">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
