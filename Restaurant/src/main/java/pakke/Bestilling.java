@@ -26,7 +26,7 @@ public class Bestilling {
         return nr;
     }
 
-    public boolean leggTilRett(Rett rett){
+    public boolean leggTilRett(Rett rett){ // legge til rett
         if (rett.getId()>0){
             antRettar++;
         }
