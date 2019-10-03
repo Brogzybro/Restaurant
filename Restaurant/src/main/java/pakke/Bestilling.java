@@ -42,7 +42,7 @@ public class Bestilling {
         return sum;
     }
 
-    public String toString(){
+    public String toString(){ // bla bla
         String ut="bestilling nr:" + nr + " er:<br>\n";
         for (int i = 0; i <retter.size(); i++) {
             ut += retter.get(i).toString() + "<br>\n";
