@@ -34,7 +34,7 @@ public class Bestilling {
         return true;
     }
 
-    public double bestillingPris(){
+    public double bestillingPris(){ // calculates the sum of the complete order
         double sum = 0;
         for (int i = 0; i <retter.size() ; i++) {
             sum += retter.get(i).getPris();
